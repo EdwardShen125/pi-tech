@@ -64,6 +64,20 @@ func (s *UserService) RegisterUser(ctx context.Context, firstName, lastName, ema
 	return user, err
 }
 
+func (s *UserService) UpdateUserBalance(ctx context.Context, userID string, newBalance int64) error {
+	// 加载用户数据
+	user, err := s.userRepo.FindOne(ctx, userID)
+	if err != nil {
+		return err
+	}
+	// 修改余额，更新版本
+	if err = user.UpdateBalance(newBalance); err != nil {
+		return err
+	}
+	// 更新数据库时会检查版本号
+	return s.userRepo.Update(ctx, user)
+}
+
 // FindOneByMobile 根据手机号查询用户
 func (s *UserService) FindOneByMobile(ctx context.Context, mobile string) (*entity.User, error) {
 	return s.userRepo.FindOneByMobile(ctx, mobile)

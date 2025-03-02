@@ -15,6 +15,7 @@ type User struct {
 	LastName     string
 	Email        string
 	Password     string // 注意：实际保存为哈希
+	Balance      int64
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	domainEvents []DomainEvent // 存放领域事件的集合
@@ -54,6 +55,29 @@ func (u *User) PublicUser() *User {
 		CreatedAt: u.CreatedAt,
 		UpdatedAt: u.UpdatedAt,
 	}
+}
+
+// UpdateEmail 更新用户邮箱，并执行必要的业务校验
+func (u *User) UpdateEmail(newEmail string) error {
+	newEmail = strings.TrimSpace(newEmail)
+	if newEmail == "" {
+		return errors.New("email cannot be empty")
+	}
+	// 此处可以增加更复杂的邮箱格式校验
+	u.Email = newEmail
+	u.UpdatedAt = time.Now()
+	return nil
+}
+
+// UpdateBalance 更新账户余额，可以是加值或设置新余额，具体业务逻辑视情况而定
+func (u *User) UpdateBalance(newBalance int64) error {
+	// 例如：不允许负余额
+	if newBalance < 0 {
+		return errors.New("balance cannot be negative")
+	}
+	u.Balance = newBalance
+	u.UpdatedAt = time.Now()
+	return nil
 }
 
 // AddDomainEvent 添加一个领域事件到实体内

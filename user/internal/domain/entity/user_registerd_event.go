@@ -51,3 +51,8 @@ func (e *UserRegisteredEvent) EventName() string {
 func (e *UserRegisteredEvent) OccurredAt() time.Time {
 	return e.occurredAt
 }
+
+// AggregateID 聚合id
+func (e *UserRegisteredEvent) AggregateID() string {
+	return e.User.ID
+}

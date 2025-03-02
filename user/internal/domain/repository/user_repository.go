@@ -11,9 +11,9 @@ import (
 type UserRepository interface {
 	WithSession(session sqlx.Session) UserRepository
 	Insert(ctx context.Context, data *entity.User) (int64, error)
-	FindOne(ctx context.Context, id int64) (*entity.User, error)
+	FindOne(ctx context.Context, id string) (*entity.User, error)
 	FindOneByMobile(ctx context.Context, mobile string) (*entity.User, error)
 	FindOneByName(ctx context.Context, name sql.NullString) (*entity.User, error)
 	Update(ctx context.Context, data *entity.User) error
-	Delete(ctx context.Context, id int64) error
+	Delete(ctx context.Context, id string) error
 }
