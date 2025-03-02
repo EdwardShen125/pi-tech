@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info(
+    title: "vip 服务"
+    desc: "vip 服务"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+
+type Request {
+    // TODO: add members here and delete this comment
+}
+
+type Response {
+    // TODO: add members here and delete this comment
+}
+
+@server(
+    jwt: Auth
+    group: template
+)
+service VIPService {
+    @handler handlerName // TODO: replace handler name and delete this comment
+    get /vip/id/:userId (Request) returns (Response)
+}

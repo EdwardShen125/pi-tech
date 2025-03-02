@@ -1,0 +1,18 @@
+Name: user
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Key: Etcd
+  Hosts:
+    - "127.0.0.1:6379"
+    - "127.0.0.1:6377"
+    - "127.0.0.1:6376"
+
+UserRPCServer:
+  Etcd:
+    Key: UserRPCServer
+
+GameRPCClient:
+  Etcd:
+    Key: GameRPCClient
+
+MysqlDSN: ""

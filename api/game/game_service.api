@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info(
+    title: "game 服务"
+    desc: "game 服务"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+
+type Request {
+    // TODO: add members here and delete this comment
+}
+
+type Response {
+    // TODO: add members here and delete this comment
+}
+
+@server(
+    jwt: Auth
+    group: template
+)
+service GameService {
+    @handler handlerName // TODO: replace handler name and delete this comment
+    get /game/id/:userId (Request) returns (Response)
+}

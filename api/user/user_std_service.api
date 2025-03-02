@@ -1,0 +1,24 @@
+syntax = "v1"
+
+info (
+	title: "用户服务"
+	desc: "用户服务desc"
+	author: "shenhh"
+	email: "shenhh@dustess.com"
+)
+
+type Request {
+	// TODO: add members here and delete this comment
+}
+
+type Response {
+	// TODO: add members here and delete this comment
+}
+
+service UserStdService {
+	@handler GetUser // TODO: set handler name and delete this comment
+	get /user/id/:userId(Request) returns(Response)
+
+	@handler UpdateUser // TODO: set handler name and delete this comment
+	post /user/create(Request)
+}

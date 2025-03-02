@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package vipservice;
+option go_package = "/protoc-gen-go";
+
+message Request {}
+
+message Response {}
+
+service VIPService {
+    // 
+    rpc HandlerName (Request) returns (Response);
+}

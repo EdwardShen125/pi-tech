@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package gameservice;
+option go_package = "/protoc-gen-go";
+
+message Request {}
+
+message Response {}
+
+service GameService {
+    // 
+    rpc HandlerName (Request) returns (Response);
+}

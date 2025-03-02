@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package userstdservice;
+option go_package = "/protoc-gen-go";
+
+message Empty {}
+
+message Request {}
+
+message Response {}
+
+service UserStdService {
+    // 
+    rpc UpdateUser (Request) returns (Empty);
+    // 
+    rpc GetUser (Request) returns (Response);
+}
