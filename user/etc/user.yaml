@@ -1,5 +1,7 @@
+#服务名称
 Name: user
-ListenOn: 0.0.0.0:8080
+
+#服务发现地址
 Etcd:
   Key: Etcd
   Hosts:
@@ -7,12 +9,41 @@ Etcd:
     - "127.0.0.1:6377"
     - "127.0.0.1:6376"
 
+#自身微服务rpc服务端配置
 UserRPCServer:
+  ListenOn: 0.0.0.0:5000
   Etcd:
     Key: UserRPCServer
 
+#外部微服务rpc客户端配置
 GameRPCClient:
   Etcd:
     Key: GameRPCClient
 
+#sql数据库链接
 MysqlDSN: ""
+
+#kafka生产者配置
+KqPusherConf:
+  Brokers:
+    - 127.0.0.1:9092
+  Topic: user-registered
+
+#kafka消费者配置
+KqConsumerConf:
+  Name: userConsumer
+  Brokers:
+    - 127.0.1:9092
+  Group: userConsumer
+  Topic: user-registered
+  Offset: first
+  Consumers: 8
+  Processors: 8
+
+#链路追踪
+Telemetry:
+  Name: user
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+

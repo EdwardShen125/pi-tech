@@ -53,12 +53,12 @@ user
 │   │   │   └── rpc
 │   │   │       └── user_server.go
 │   │   ├── repository          // 仓储实现
-│   │   │   ├── event           // 领域事件仓储
+│   │   │   ├── event           // 当前服务内所有领域事件仓储接口 outbox模式
 │   │   │   │   ├── event.sql
 │   │   │   │   ├── eventmodel.go
 │   │   │   │   ├── eventmodel_gen.go
 │   │   │   │   └── vars.go
-│   │   │   └── user            // 用户仓储
+│   │   │   └── user            // 用户实体仓储接口实现
 │   │   │       ├── user.sql
 │   │   │       ├── usermodel.go
 │   │   │       ├── usermodel_gen.go

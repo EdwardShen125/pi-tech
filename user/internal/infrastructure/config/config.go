@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/discov"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -13,6 +14,11 @@ type Config struct {
 	UserRPCServer zrpc.RpcServerConf
 	GameRPCClient zrpc.RpcClientConf
 	MysqlDSN      string
+	KqPusherConf  struct {
+		Brokers []string
+		Topic   string
+	}
+	KqConsumerConf kq.KqConf
 }
 
 // Validate 校验配置

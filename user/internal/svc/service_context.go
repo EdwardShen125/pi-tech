@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"user/internal/app"
 	"user/internal/domain/service"
@@ -24,12 +25,15 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	// 初始化领域服务
 	userDomainSvc := service.NewUserDomainService()
 
+	KqPusherClient := kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic)
+
 	// 初始化应用层服务
 	userAppSvc := app.NewUserService(
 		sqlConn,
 		userRepo,
 		userDomainSvc,
 		eventRepo,
+		KqPusherClient,
 	)
 
 	return &ServiceContext{

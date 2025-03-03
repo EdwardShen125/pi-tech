@@ -2,6 +2,8 @@ package app
 
 import (
 	"context"
+	"github.com/zeromicro/go-queue/kq"
+	"github.com/zeromicro/go-zero/core/logc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"user/internal/domain/entity"
 	"user/internal/domain/repository"
@@ -13,6 +15,7 @@ type UserService struct {
 	userRepo        repository.UserRepository
 	userDomainSvc   service.UserDomainService
 	eventRepository repository.OutboxEventRepository
+	kqPusher        *kq.Pusher
 }
 
 // NewUserService 构造函数，注入依赖
@@ -21,12 +24,14 @@ func NewUserService(
 	repo repository.UserRepository,
 	domainSvc service.UserDomainService,
 	eventRepository repository.OutboxEventRepository,
+	kqPusher *kq.Pusher,
 ) *UserService {
 	return &UserService{
 		conn:            conn,
 		userRepo:        repo,
 		userDomainSvc:   domainSvc,
 		eventRepository: eventRepository,
+		kqPusher:        kqPusher,
 	}
 }
 
@@ -61,10 +66,22 @@ func (s *UserService) RegisterUser(ctx context.Context, firstName, lastName, ema
 		return nil
 	})
 
+	// or direct publish
+	// s.kqPusher.PushWithKey(ctx, "key", "marshaled event")
+
 	return user, err
 }
 
+// HandleRegisterUser 异步处理用户注册之后的业务逻辑
+func (s *UserService) HandleRegisterUser(ctx context.Context, event *entity.UserRegisteredEvent) error {
+	// todo handle event
+	return nil
+}
+
 func (s *UserService) UpdateUserBalance(ctx context.Context, userID string, newBalance int64) error {
+	logc.Infow(ctx, "UpdateUserBalance",
+		logc.Field("user_id", userID),
+		logc.Field("balance", newBalance))
 	// 加载用户数据
 	user, err := s.userRepo.FindOne(ctx, userID)
 	if err != nil {
