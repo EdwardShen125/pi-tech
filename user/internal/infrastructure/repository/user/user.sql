@@ -14,3 +14,5 @@ CREATE TABLE user (
                       UNIQUE name_index (name),
                       PRIMARY KEY (id)
 ) ENGINE = InnoDB COLLATE utf8mb4_general_ci COMMENT 'user table';
+
+-- goctl model mysql ddl --src .\user.sql --dir .

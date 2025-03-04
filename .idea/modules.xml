@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/pi-casino.iml" filepath="$PROJECT_DIR$/.idea/pi-casino.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../gitlab/.idea/gitlab.iml" filepath="$PROJECT_DIR$/../../gitlab/.idea/gitlab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../harbor/.idea/harbor.iml" filepath="$PROJECT_DIR$/../../harbor/.idea/harbor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pi-tech.iml" filepath="$PROJECT_DIR$/.idea/pi-tech.iml" />
     </modules>
   </component>
 </project>
