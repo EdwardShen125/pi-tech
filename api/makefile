@@ -30,27 +30,28 @@ gen-pb:
 		       --go-grpc_out=$(GEN_DIR) --go-grpc_opt=paths=source_relative \
 		       "$$proto"; \
 	done
-#.PHONY: gen-pb
-#gen-pb:
-#	@find $(PROTO_DIR) -type f -name "*.proto" | while read proto; do \
-#	    rel=`dirname "$$proto" | sed "s#$(PROTO_DIR)/##"`; \
-#	    base=`basename "$$proto"`; \
-#	    if [ "$$rel" = "" ]; then \
-#	        outdir="$(GEN_DIR)"; \
-#	        pkg="default"; \
-#	    else \
-#	        outdir="$(GEN_DIR)/$$rel"; \
-#	        pkg=`basename "$$rel"`; \
-#	    fi; \
-#	    mkdir -p $$outdir; \
-#	    echo "Generating pb for $$proto -> $$outdir with package $$pkg"; \
-#	    protoc --proto_path=$(PROTO_DIR) \
-#	    	   --go_out=$(GEN_DIR) \
-#	    	   --go_opt=M$$base=$$pkg,paths=source_relative \
-#	    	   --go-grpc_out=$(GEN_DIR) \
-#	           --go-grpc_opt=M$$base=$$pkg,paths=source_relative \
-#	           "$$proto"; \
-#	done
+
+
+.PHONY: check-lock
+
+check-lock:
+	@echo "Installing protolock..."
+	go install github.com/nilslice/protolock/cmd/protolock@latest
+	@if [ ! -f $(GRPC_GO_OUT_PATH)/proto.lock ]; then \
+		echo "proto.lock not found, initializing..."; \
+		protolock init --lockdir $(GRPC_GO_OUT_PATH) --strict false; \
+		echo "\n init proto.lock success \n"; \
+	fi
+	@echo "Checking protolock status..."
+	protolock status --ignore ./protos/kf-workflow/WfQueryService.proto --lockdir $(GRPC_GO_OUT_PATH) --strict false
+	@echo "Committing protolock changes..."
+	protolock commit --ignore ./protos/kf-workflow/WfQueryService.proto --lockdir $(GRPC_GO_OUT_PATH) --strict false
+	@if [ $$? -ne 0 ]; then \
+		echo "check lock failed: 请确认协议向下兼容"; \
+		echo "如果有强制提交需求, 可参照该文档操作:"; \
+		echo "https://doc.weixin.qq.com/doc/w3_AOIAfQbzAO44fMXp48uR4y0TLOHil?scode=ACUArAcBAAkWWeWNSzAO8AoQYuANg"; \
+		exit 1; \
+	fi
 
 
 
